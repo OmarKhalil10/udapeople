@@ -357,30 +357,19 @@ jobs:
       - install_ansible
 
       - run:
-          name: Install dependencies
+          name: Deploy backend
           command: |
+            # your code here
             cd backend
-            npm install
-
-      - run:
-          name: package backend
-          command: |
-            cd backend
+            npm i
             npm run build
-            # Zip the directory
-            tar -czf artifact.tar.gz dist/* package*
-
             cd ..
-            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
-
-      - run:
-          name: deploy backend
-          command: |
-            export TYPEORM_MIGRATIONS_DIR=./migrations
-            export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
-            export TYPEORM_MIGRATIONS=./migrations/*.ts
-
+            # Zip the directory
             cd .circleci/ansible
+            mkdir files
+            cd files
+            tar -C ../../../backend -czvf artifact.tar.gz .
+            cd ../
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
