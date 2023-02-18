@@ -13,6 +13,7 @@
     ansible_host_key_checking: false
     ansible_stdout_callback: yaml
 
+  # Get All environment variables form CircleCi and add it to the EC2 instance
   environment:
     NODE_ENV: production
     VERSION: "1"
