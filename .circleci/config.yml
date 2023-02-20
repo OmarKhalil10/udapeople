@@ -65,7 +65,7 @@ commands:
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
             # Your Memstash or kvdb.io GET URL code goes here
 
-            SUCCESS=$(curl --insecure https://kvdb.io/QdVUcFLkiZKEo5LJAdW7kh/migration_<< parameters.workflow_ID >>)
+            SUCCESS=$(curl --insecure https://kvdb.io/N9JTdHu323kt6RUY6YrKyz/migration_<< parameters.workflow_ID >>)
 
             # Logic for reverting the database state
             if(( $SUCCESS==1 ));
@@ -287,7 +287,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              curl https://kvdb.io/QdVUcFLkiZKEo5LJAdW7kh/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+              curl https://kvdb.io/N9JTdHu323kt6RUY6YrKyz/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
      # Here's where you will add some code to rollback on failure
       - destroy-environment
@@ -434,7 +434,7 @@ jobs:
             --no-paginate --output text)
 
             echo "Old Workflow ID: $OLD_WORKFLOW_ID"
-            curl https://kvdb.io/QdVUcFLkiZKEo5LJAdW7kh/old_workflow_id -d "${OLD_WORKFLOW_ID}"
+            curl https://kvdb.io/N9JTdHu323kt6RUY6YrKyz/old_workflow_id -d "${OLD_WORKFLOW_ID}"
       - run:
           name: Update cloudfront distribution
           command: |
@@ -461,7 +461,7 @@ jobs:
           command: |
             # your code here
             # put the list of stacks here
-            export OldWorkflowID=$(curl --insecure https://kvdb.io/QdVUcFLkiZKEo5LJAdW7kh/old_workflow_id)
+            export OldWorkflowID=$(curl --insecure https://kvdb.io/N9JTdHu323kt6RUY6YrKyz/old_workflow_id)
             export STACKS=($(aws cloudformation list-stacks \
             --query "StackSummaries[*].StackName" \
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
