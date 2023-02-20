@@ -456,28 +456,27 @@ jobs:
       - checkout
       - install_awscli
       - run:
-          name: Get old stack workflow id
+          name: Get old stack workflow id and Remove old stacks and files
           command: |
             # your code here
             # put the list of stacks here
+            export OldWorkflowID=$(curl --insecure https://kvdb.io/QdVUcFLkiZKEo5LJAdW7kh/old_workflow_id)
             export STACKS=($(aws cloudformation list-stacks \
             --query "StackSummaries[*].StackName" \
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+            echo OldWorkflowID: "${OldWorkflowID}"
+            echo CIRCLE_WORKFLOW_ID "$CIRCLE_WORKFLOW_ID"
             echo Stack names: "${STACKS[@]}"
 
-            export OldWorkflowID=$(curl --insecure https://kvdb.io/QdVUcFLkiZKEo5LJAdW7kh/old_workflow_id)
-            echo Old Workflow ID: $OldWorkflowID
-      - run:
-          name: Remove old stacks and files
-          command: |
-            export OldWorkflowID=$(curl --insecure https://kvdb.io/QdVUcFLkiZKEo5LJAdW7kh/old_workflow_id)
-            echo Old Workflow ID: $OldWorkflowID
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
               # your code here
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+              echo "===============Delete Confirmed==============="
+            else
+              echo "===============Delete Not Confirmed==============="
             fi
 
 workflows:
