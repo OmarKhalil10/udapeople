@@ -2,13 +2,13 @@
 https://github.com/OmarKhalil10/udapeople
 
 [URL02]
-http://udapeople-2c8b00d.s3-website-us-east-1.amazonaws.com
+http://udapeople-1545162.s3-website-us-east-1.amazonaws.com
 
 [URL03]
 https://d2lujn8fvfn8l6.cloudfront.net
 
 [URL04]
-http://ec2-3-84-161-20.compute-1.amazonaws.com:3030/api/status
+http://ec2-18-234-162-89.compute-1.amazonaws.com:3030/api/status
 
 [URL05]
-http://ec2-44-204-117-189.compute-1.amazonaws.com:9090/graph
+http://ec2-44-200-159-64.compute-1.amazonaws.com:9090/graph
